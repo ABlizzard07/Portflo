@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "508577914350",
+    "firebase_url": "https://portflo-app-default-rtdb.firebaseio.com",
+    "project_id": "portflo-app",
+    "storage_bucket": "portflo-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508577914350:android:b7f0cb6a5d6791d58dc2ff",
+        "android_client_info": {
+          "package_name": "com.fbla.portflo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxhIwfjodhB4WC25VXkmNne3f0KRb55dw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
