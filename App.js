@@ -1,19 +1,59 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './screens/Login';
-import Home from './screens/Home';
-import { useEffect } from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import WelcomeScreen from './screens/WelcomeScreen';
+import HomeScreen from './screens/HomeScreen';
+import AddActivityScreen from './screens/AddActivityScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect } from 'react';
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function Tabs({ user }) {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarIcon: () => null,
+        tabBarLabelStyle: { fontSize: 15, textAlign: 'center', paddingTop: 5, paddingBottom: 10},
+      }}
+    >
+      <Tab.Screen name="Home">
+        {props => <HomeScreen {...props} user={user} />}
+      </Tab.Screen>
+      <Tab.Screen name="Add Activity" component={AddActivityScreen} />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
+  const [user, setUser] = useState({})
+
+  const findName = async () => { 
+    const result = await AsyncStorage.getItem('user')
+    if (result !== null) {
+        setUser(JSON.parse(result))
+    }
+  }
+
+  useEffect(() => {
+    findName();
+  }, [])
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
-        <Stack.Screen name="Home" component={Home} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {!user ? (
+          <Stack.Screen name="Welcome">
+            {props => <WelcomeScreen {...props} setUser={setUser} />}
+          </Stack.Screen>
+        ) : (
+          <Stack.Screen name="Home">
+            {props => <Tabs {...props} user={user} />}
+          </Stack.Screen>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const Stack = createNativeStackNavigator();

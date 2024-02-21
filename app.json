@@ -12,13 +12,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.fbla.portflo",
-      "googleServicesFile": "./google-services.json"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "7c8be2b5-a87a-4dbb-87f1-cfb42e71a0e8"
-      }
+      "package": "com.fbla.portflo"
     }
   }
 }
