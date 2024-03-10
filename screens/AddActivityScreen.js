@@ -1,32 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AddActivityScreen = () => {
+const AddActivityScreen = ({ route }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
-  const [startMonth, setStartMonth] = useState(new Date());
-  const [endMonth, setEndMonth] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
 
-  const categories = ['Academic', 'Sports', 'Performing Arts', 'Work Experience', 'Clubs', 'Other'];
+  const [categories] = useState(
+    ['Academics', 'Sports', 'Performing Arts', 'Internships and Work Experience', 'Clubs and Organizations',
+    'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']
+    );
+
+  useEffect(() => {
+    if (route.params?.editMode && route.params?.activity) {
+      const { title, description, category, startDate, endDate } = route.params.activity;
+      setTitle(title);
+      setDescription(description);
+      setCategory(category);
+      setStartDate(new Date(startDate));
+      setEndDate(new Date(endDate));
+    }
+  }, [route.params?.activity]);
+
 
   const handleStartChange = (event, selectedDate) => {
     setShowStartCalendar(false);
     if (selectedDate) {
-      setStartMonth(selectedDate);
+      selectedDate.setHours(12)
+      setStartDate(selectedDate);
     }
   };
 
   const handleEndChange = (event, selectedDate) => {
     setShowEndCalendar(false);
     if (selectedDate) {
-      if (selectedDate >= startMonth) {
-        setEndMonth(selectedDate);
+      selectedDate.setHours(12)
+      if (selectedDate >= startDate) {
+        setEndDate(selectedDate);
       } else {
         Alert.alert('Invalid date', 'End date must be after start date.');
       }
@@ -38,18 +55,12 @@ const AddActivityScreen = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
-  const handleSubmit = async () => {
-    if (!title.trim() || title.trim().length > 15) {
-      Alert.alert('Invalid input', 'Please enter a valid title.');
+  const onSubmit = async () => {
+    if (title.trim().length > 20) {
+      Alert.alert('Invalid title', 'Title cannot extend 20 characters.');
       return;
-    } else if (!category) {
+    } else if (!title.trim() || !category || !description.trim() || !startDate || !endDate) {
       Alert.alert('Invalid input', 'Please choose a category.');
-      return;
-    } else if (!description.trim()) {
-      Alert.alert('Invalid input', 'Please enter a description.');
-      return;
-    } else if (startMonth > endMonth) {
-      Alert.alert('Invalid date', 'End date must be after start date.');
       return;
     }
 
@@ -57,29 +68,29 @@ const AddActivityScreen = () => {
       title,
       description,
       category,
-      startMonth,
-      endMonth,
+      startDate: showDate(startDate),
+      endDate: showDate(endDate)
     };
 
     const storedActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
     storedActivities.push(newActivity);
     await AsyncStorage.setItem('activities', JSON.stringify(storedActivities));
 
-    Alert.alert('Form verified', 'All fields are valid.');
-    handleClear();
+    Alert.alert('Form verified', 'Your activity has been submitted!');
+    onClear();
   };
 
-  const handleClear = () => {
+  const onClear = () => {
     setTitle('');
     setDescription('');
     setCategory('');
-    setStartMonth(new Date());
-    setEndMonth(new Date());
+    setStartDate(new Date());
+    setEndDate(new Date());
   };
 
   return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View className="flex-1 container bg-blue-300 px-5 pt-4 items-center">
+        <View className="flex-1 container bg-blue-100 px-5 pt-4 items-center">
           <Text className="text-center text-2xl pb-2 mt-8 font-semibold">
             Add an Activity
           </Text>
@@ -99,34 +110,39 @@ const AddActivityScreen = () => {
               ))}
             </Picker>
           </View>
+
           <View className="flex-row items-center">
             <TouchableOpacity className="w-3/5" onPress={() => setShowStartCalendar(true)}>
-              <Text>Select Start Date</Text>
+              <Text className="font-semibold">Select Start Date</Text>
             </TouchableOpacity>
-            <Text>{showDate(startMonth)}</Text>
+            <Text>{showDate(startDate)}</Text>
           </View>
+
           {showStartCalendar && (
             <DateTimePicker
-              value={startMonth}
+              value={startDate}
               mode="date"
               display="default"
               onChange={handleStartChange}
             />
           )}
+
           <View className="flex-row mb-3">
             <TouchableOpacity className="w-3/5" onPress={() => setShowEndCalendar(true)}>
-              <Text>Select End Date</Text>
+              <Text className="font-semibold">Select End Date</Text>
             </TouchableOpacity>
-            <Text>{showDate(endMonth)}</Text>
+            <Text>{showDate(endDate)}</Text>
           </View>
+
           {showEndCalendar && (
             <DateTimePicker
-              value={endMonth}
+              value={endDate}
               mode="date"
               display="default"
               onChange={handleEndChange}
             />
           )}
+
           <TextInput className="bg-white w-full p-2 m-2 h-36 mb-3 text-lg text-center"
             placeholder="Description"
             value={description}
@@ -136,12 +152,12 @@ const AddActivityScreen = () => {
             scrollEnabled
           />
           <View className="flex-row justify-center gap-x-3.5">
-            <TouchableOpacity onPress={handleSubmit}>
+            <TouchableOpacity onPress={onSubmit}>
               <Text className="text-center text-lg w-full p-2 m-2 rounded-2xl bg-blue-500 text-white">
                 Submit
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleClear}>
+            <TouchableOpacity onPress={onClear}>
               <Text className="text-center text-lg w-full p-2 m-2 rounded-2xl bg-red-500 text-white">
                 Clear
               </Text>
