@@ -15,6 +15,7 @@ const Tab = createBottomTabNavigator();
 function Tabs({ user }) {
   return (
     <Tab.Navigator
+      initialRouteName="See Activities"
       screenOptions={{
         headerShown: false,
         tabBarIcon: () => null,
@@ -47,7 +48,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!user ? (
+        {!user.name ? (
           <Stack.Screen name="Welcome">
             {props => <WelcomeScreen {...props} setUser={setUser} />}
           </Stack.Screen>

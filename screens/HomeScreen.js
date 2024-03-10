@@ -5,21 +5,27 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen = ({ user }) => {
+const HomeScreen = () => {
   const [activities, setActivities] = useState([]);
   const [deletedActivities, setDeletedActivities] = useState([]);
   const [search, setSearch] = useState('');
   const [showDeleted, setShowDeleted] = useState(false);
+  const [user, setUser] = useState({ name: '' });
 
   useFocusEffect(
     React.useCallback(() => {
+      const fetchUser = async () => {
+        let storedUser = JSON.parse(await AsyncStorage.getItem('user'));
+        setUser(storedUser ? storedUser : { name: '' });
+      };
+
+      fetchUser();
+
       const fetchActivities = async () => {
         let storedActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
-        storedActivities = storedActivities.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
         setActivities(storedActivities);
   
         let storedDeletedActivities = JSON.parse(await AsyncStorage.getItem('deletedActivities')) || [];
-        storedDeletedActivities = storedDeletedActivities.sort((a, b) => new Date(b.endDate) - new Date(a.endDate));
         setDeletedActivities(storedDeletedActivities);
       };
   
