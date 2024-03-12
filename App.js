@@ -32,35 +32,32 @@ function Tabs({ user }) {
 }
 
 export default function App() {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState(null);
 
   const findName = async () => { 
-    const result = await AsyncStorage.getItem('user')
+    const result = await AsyncStorage.getItem('user');
     if (result !== null) {
-        setUser(JSON.parse(result))
+        setUser(JSON.parse(result));
     }
   }
 
   useEffect(() => {
     findName();
-  }, [])
+  }, []);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!user.name ? (
-          <Stack.Screen name="Welcome">
-            {props => <WelcomeScreen {...props} setUser={setUser} />}
-          </Stack.Screen>
-        ) : (
-          <>
-          <Stack.Screen name="Home">
-            {props => <Tabs {...props} user={user} />}
-          </Stack.Screen>
-          <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
-          </>
-        )}
+      <Stack.Navigator initialRouteName={user ? "Home" : "Welcome"} screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Welcome">
+          {props => <WelcomeScreen {...props} setUser={setUser} />}
+        </Stack.Screen>
+        <Stack.Screen name="Home">
+          {props => <Tabs {...props} user={user} />}
+        </Stack.Screen>
+        <Stack.Screen name="AddActivity" component={AddActivityScreen} />
+        <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
+
 }
