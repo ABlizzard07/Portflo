@@ -33,17 +33,22 @@ function Tabs({ user }) {
 
 export default function App() {
   const [user, setUser] = useState(null);
-
-  const findName = async () => { 
-    const result = await AsyncStorage.getItem('user');
-    if (result !== null) {
-        setUser(JSON.parse(result));
-    }
-  }
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
+    const findName = async () => { 
+      const result = await AsyncStorage.getItem('user');
+      if (result !== null) {
+        setUser(JSON.parse(result));
+      }
+      setIsInitialized(true);
+    }
     findName();
   }, []);
+
+  if (!isInitialized) {
+    return null;
+  }
 
   return (
     <NavigationContainer>
@@ -59,5 +64,4 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-
 }

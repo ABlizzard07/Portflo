@@ -27,7 +27,7 @@ const ActivityDetailScreen = ({ route }) => {
       <TouchableOpacity className="w-1/2 bg-blue-300 border-blue-500 border-2 mt-6 p-2 rounded-2xl items-center" onPress={twitterShare}>
         <Text>Post on Twitter</Text>
       </TouchableOpacity>
-      <TouchableOpacity className="w-1/2 bg-blue-100 border-blue-500 border-2 mt-6 p-2 rounded-2xl items-center" onPress={() => navigation.goBack()}>
+      <TouchableOpacity className="w-1/2 bg-blue-100 border-blue-500 border-2 mt-4 p-2 rounded-2xl items-center" onPress={() => navigation.goBack()}>
         <Text>Go Back</Text>
       </TouchableOpacity>
     </View>

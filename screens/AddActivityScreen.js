@@ -123,10 +123,10 @@ const AddActivityScreen = ({ route }) => {
         </View>
 
         <View className="flex-row items-center">
-          <TouchableOpacity className="w-2/5" onPress={() => setShowStartCalendar(true)}>
+          <TouchableOpacity className="w-2/5 p-2 bg-blue-200" onPress={() => setShowStartCalendar(true)}>
             <Text className="font-semibold">Select Start Date</Text>
           </TouchableOpacity>
-          <Text>{showDate(startDate)}</Text>
+          <Text className="p-2">{showDate(startDate)}</Text>
         </View>
 
         {showStartCalendar && (
@@ -138,11 +138,11 @@ const AddActivityScreen = ({ route }) => {
           />
         )}
 
-        <View className="flex-row mb-3">
-          <TouchableOpacity className="w-2/5" onPress={() => setShowEndCalendar(true)}>
+        <View className="flex-row items-center mb-2">
+          <TouchableOpacity className="w-2/5 p-2 bg-blue-200" onPress={() => setShowEndCalendar(true)}>
             <Text className="font-semibold">Select End Date</Text>
           </TouchableOpacity>
-          <Text>{showDate(endDate)}</Text>
+          <Text className="p-2">{showDate(endDate)}</Text>
         </View>
 
         {showEndCalendar && (
@@ -162,6 +162,8 @@ const AddActivityScreen = ({ route }) => {
           multiline
           scrollEnabled
         />
+
+        <Text>Character count: {description.trim().length}</Text>
 
         <View className="flex-row justify-center gap-x-3.5">
           <TouchableOpacity onPress={onSubmit}>

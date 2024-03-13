@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Text, View, TextInput, FlatList, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { Text, View, TextInput, FlatList, TouchableOpacity, Dimensions, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -76,6 +76,19 @@ const HomeScreen = () => {
     setDeletedActivities(newDeletedActivities);
   }
 
+  const emailBragSheet = () => {
+    let filteredActivities = activities.filter(activity => 
+      activity.title.toLowerCase().includes(search) || activity.category.toLowerCase().includes(search)) || activity.description.toLowerCase().includes(search)
+    let bragSheet = '';
+    filteredActivities.forEach(activity => {
+      bragSheet += `${activity.title}\n${activity.category}\nFrom ${new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} to ${new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+      \nDescription: ${activity.description}\n\n`;
+    });
+  
+    const mailto = `mailto:?subject=Brag Sheet&body=${encodeURIComponent(bragSheet)}`;
+    Linking.openURL(mailto);
+  };
+
   const showItem = ({ item }) => (
     <TouchableOpacity onPress={() => {
       // Show these options if activity is deleted
@@ -140,12 +153,15 @@ const HomeScreen = () => {
       <Text className="text-center text-xl pb-2 mt-8 mb-2 font-semibold">{user.name ? `${user.name}'s Portfolio` : `My Portfolio`}</Text>
       
       <View className="flex-row items-center">
-        <TextInput className="bg-white w-4/5 p-2 mr-2 text-base rounded-2xl text-center"
+        <TextInput className="bg-white w-3/5 p-2 mr-2 text-sm rounded-2xl text-center"
           placeholder="Search for an activity"
           onChangeText={keyword => setSearch(keyword)}
         ></TextInput>
-        <TouchableOpacity onPress={handleShowDeleted}>
+        <TouchableOpacity className="mr-2" onPress={handleShowDeleted}>
           <AntDesign name="delete" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={emailBragSheet}>
+          <AntDesign name="mail" size={30} color="black" />
         </TouchableOpacity>
       </View>
 
