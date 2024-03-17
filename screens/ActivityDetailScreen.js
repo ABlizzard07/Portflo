@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as WebBrowser from 'expo-web-browser';
+//import * as WebBrowser from 'expo-web-browser';
 
 const ActivityDetailScreen = ({ route }) => {
   const { item } = route.params; // Gets the activity parameters from the route
@@ -15,8 +15,8 @@ const ActivityDetailScreen = ({ route }) => {
   const twitterShare = async () => {
     const message = `I took part in ${item.title} from ${formatStartDate} to ${formatEndDate}!. Here's what I did: 
     ${item.description}`; // Formats the activity properties into the message
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; // Pre-populated a tweet with the message
-    await WebBrowser.openBrowserAsync(url); // Open the URL
+    //const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; // Pre-populated a tweet with the message
+    //await WebBrowser.openBrowserAsync(url); // Open the URL
   };
 
   const [isStarred, setIsStarred] = useState(false);
