@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import WelcomeScreen from './screens/WelcomeScreen';
-import ActivitiesScreen from './screens/ActivitiesScreen';
+import HomeScreen from './screens/HomeScreen';
 import AddActivityScreen from './screens/AddActivityScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ActivityDetailScreen from './screens/ActivityDetailScreen';
@@ -23,7 +23,7 @@ function Tabs({ user }) {
       }}
     >
       <Tab.Screen name="See Activities">
-        {props => <ActivitiesScreen {...props} user={user} />}
+        {props => <HomeScreen {...props} user={user} />}
       </Tab.Screen>
       <Tab.Screen name="Add Activity" component={AddActivityScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
