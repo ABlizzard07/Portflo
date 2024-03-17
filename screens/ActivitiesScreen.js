@@ -133,7 +133,7 @@ const ActivitiesScreen = () => {
         <Text className="text-blue-500">{item.category}</Text>
         <Text>{new Date(item.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} -</Text>
         <Text>{new Date(item.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-        <Text className="text-gray-500" numberOfLines={4}>{item.description}</Text>
+        <Text className="text-gray-500" numberOfLines={3}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 
@@ -55,11 +54,9 @@ const ActivityDetailScreen = ({ route }) => {
           <Text>Brag on Twitter</Text>
         </TouchableOpacity>
         <TouchableOpacity className="w-1/2 bg-yellow-100 border-yellow-500 border-2 p-2 rounded-2xl items-center" onPress={starActivity}>
-          <Text>Star Activity</Text>
+          <Text>{isStarred ? 'Unstar Activity' : 'Star Activity'}</Text>
         </TouchableOpacity>
       </View>
-
-      
       
       <TouchableOpacity className="w-1/2 bg-blue-100 border-blue-500 border-2 mt-4 p-2 rounded-2xl items-center" onPress={() => navigation.goBack()}>
         <Text>Go Back</Text>
