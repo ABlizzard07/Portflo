@@ -53,6 +53,7 @@ const AddActivityScreen = ({ route }) => {
       Alert.alert('Invalid title', 'Title cannot extend 20 characters.');
       return;
     } else if (!title.trim() || !category || !description.trim() || !startDate || !endDate) {
+      // Checks if any of the fields are missing
       Alert.alert('Invalid input', 'A field is missing.');
       return;
     }
@@ -60,7 +61,7 @@ const AddActivityScreen = ({ route }) => {
     // If editItem exists, update the activity
     if (editItem) {
       const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
-      const index = allActivities.findIndex(activity => activity.title === editItem.title);
+      const index = allActivities.findIndex(activity => activity.title == editItem.title);
       allActivities[index] = {
         title,
         description,
@@ -102,10 +103,10 @@ const AddActivityScreen = ({ route }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View className="flex-1 container bg-blue-100 px-5 pt-4 items-center">
-        <Text className="text-center text-2xl pb-2 mt-8 font-semibold">
+        <Text className="text-center text-xl pb-2 mt-8 font-semibold">
           Add an Activity
         </Text>
-        <TextInput className="bg-white w-4/5 p-2 m-2 text-xl rounded-2xl text-center"
+        <TextInput className="bg-white w-4/5 py-2 m-2 mb-0 text-lg rounded-2xl text-center"
           placeholder="Activity Title"
           value={title}
           onChangeText={setTitle}
@@ -122,8 +123,8 @@ const AddActivityScreen = ({ route }) => {
           </Picker>
         </View>
 
-        <View className="flex-row items-center">
-          <TouchableOpacity className="w-2/5 p-2 bg-blue-200" onPress={() => setShowStartCalendar(true)}>
+        <View className="flex-row items-center pb-3">
+          <TouchableOpacity className="w-2/5 pl-4 py-2 rounded-xl bg-blue-200" onPress={() => setShowStartCalendar(true)}>
             <Text className="font-semibold">Select Start Date</Text>
           </TouchableOpacity>
           <Text className="p-2">{showDate(startDate)}</Text>
@@ -139,7 +140,7 @@ const AddActivityScreen = ({ route }) => {
         )}
 
         <View className="flex-row items-center mb-2">
-          <TouchableOpacity className="w-2/5 p-2 bg-blue-200" onPress={() => setShowEndCalendar(true)}>
+          <TouchableOpacity className="w-2/5 pl-4 py-2 rounded-xl bg-blue-200" onPress={() => setShowEndCalendar(true)}>
             <Text className="font-semibold">Select End Date</Text>
           </TouchableOpacity>
           <Text className="p-2">{showDate(endDate)}</Text>
@@ -154,7 +155,7 @@ const AddActivityScreen = ({ route }) => {
           />
         )}
 
-        <TextInput className="bg-white w-full p-2 m-2 h-16 text-lg text-center"
+        <TextInput className="bg-white w-full p-2 m-2 h-24 text-lg text-center"
           placeholder="Description"
           value={description}
           blurOnSubmit
@@ -163,7 +164,7 @@ const AddActivityScreen = ({ route }) => {
           scrollEnabled
         />
 
-        <Text>Character count: {description.trim().length}</Text>
+        <Text className="mb-4">Character count: {description.trim().length}</Text>
 
         <View className="flex-row justify-center gap-x-3.5">
           <TouchableOpacity onPress={onSubmit}>

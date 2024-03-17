@@ -5,11 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen = () => {
+const ActivitiesScreen = () => {
   const [activities, setActivities] = useState([]);
   const [deletedActivities, setDeletedActivities] = useState([]);
+  const [starredActivities, setStarredActivities] = useState([]);
   const [search, setSearch] = useState('');
   const [showDeleted, setShowDeleted] = useState(false);
+  const [showStarred, setShowStarred] = useState(false);
   const [user, setUser] = useState({ name: '' });
 
   // Performs these actions every time the Home screen is focused
@@ -33,6 +35,13 @@ const HomeScreen = () => {
       };
   
       getActivities();
+
+      const getStarredActivities = async () => {
+        let allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
+        setStarredActivities(allStarredActivities);
+      };
+
+      getStarredActivities();
     }, [])
   );
 
@@ -75,19 +84,6 @@ const HomeScreen = () => {
     await AsyncStorage.setItem('deletedActivities', JSON.stringify(newDeletedActivities));
     setDeletedActivities(newDeletedActivities);
   }
-
-  const emailBragSheet = () => {
-    let filteredActivities = activities.filter(activity => 
-      activity.title.toLowerCase().includes(search) || activity.category.toLowerCase().includes(search)) || activity.description.toLowerCase().includes(search)
-    let bragSheet = '';
-    filteredActivities.forEach(activity => {
-      bragSheet += `${activity.title}\n${activity.category}\nFrom ${new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} to ${new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
-      \nDescription: ${activity.description}\n\n`;
-    });
-  
-    const mailto = `mailto:?subject=Brag Sheet&body=${encodeURIComponent(bragSheet)}`;
-    Linking.openURL(mailto);
-  };
 
   const showItem = ({ item }) => (
     <TouchableOpacity onPress={() => {
@@ -137,20 +133,30 @@ const HomeScreen = () => {
         <Text className="text-blue-500">{item.category}</Text>
         <Text>{new Date(item.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} -</Text>
         <Text>{new Date(item.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</Text>
-        <Text className="text-gray-500" numberOfLines={3}>{item.description}</Text>
+        <Text className="text-gray-500" numberOfLines={4}>{item.description}</Text>
       </View>
     </TouchableOpacity>
   );
 
-  const filteredList = activities.filter(activity => 
-    // Checks for a match in the title, description, and category, case insensitive
-    activity.title.toLowerCase().includes(search.toLowerCase()) || activity.description.toLowerCase().includes(search.toLowerCase())
-    || activity.category.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredList = showStarred 
+  ? starredActivities.filter(activity => 
+      activity.title.toLowerCase().includes(search.toLowerCase()) || 
+      activity.description.toLowerCase().includes(search.toLowerCase()) ||
+      activity.category.toLowerCase().includes(search.toLowerCase()) ||
+      new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase()) ||
+      new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase())
+    )
+  : activities.filter(activity => 
+      activity.title.toLowerCase().includes(search.toLowerCase()) || 
+      activity.description.toLowerCase().includes(search.toLowerCase()) ||
+      activity.category.toLowerCase().includes(search.toLowerCase()) ||
+      new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase()) ||
+      new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase())
+    );
 
   return (
     <View className="flex-1 items-center container bg-blue-100 px-5 pt-4">
-      <Text className="text-center text-xl pb-2 mt-8 mb-2 font-semibold">{user.name ? `${user.name}'s Portfolio` : `My Portfolio`}</Text>
+      <Text className="text-center text-xl pb-2 mt-8 mb-2 font-semibold">{user.name ? `${user.name}'s Activities` : `My Activities`}</Text>
       
       <View className="flex-row items-center">
         <TextInput className="bg-white w-3/5 p-2 mr-2 text-sm rounded-2xl text-center"
@@ -160,8 +166,17 @@ const HomeScreen = () => {
         <TouchableOpacity className="mr-2" onPress={handleShowDeleted}>
           <AntDesign name="delete" size={30} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={emailBragSheet}>
-          <AntDesign name="mail" size={30} color="black" />
+        <TouchableOpacity onPress={async () => {
+          setShowStarred(!showStarred);
+          if (!showStarred) {
+            const allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
+            setActivities(allStarredActivities);
+          } else {
+            const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
+            setActivities(allActivities);
+          }
+        }}>
+          <AntDesign name="star" size={30} color={showStarred ? "orange" : "black"} />
         </TouchableOpacity>
       </View>
 
@@ -193,4 +208,4 @@ const HomeScreen = () => {
   );
 }
 
-export default HomeScreen;
+export default ActivitiesScreen;
