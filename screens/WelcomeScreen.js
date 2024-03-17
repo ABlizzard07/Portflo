@@ -41,7 +41,6 @@ const WelcomeScreen = () => {
         await AsyncStorage.setItem('user', JSON.stringify(user))
         navigation.navigate('Home');
     } 
-    // <Image source={require('../assets/icon.png')} className="w-36 h-32" />
 
     return (
         <View className="flex-1 items-center justify-center bg-blue-100">
