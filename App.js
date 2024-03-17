@@ -53,9 +53,8 @@ export default function App() {
   }
 
   return (
-    <WelcomeScreen/>
- /*   <NavigationContainer>
-      <Stack.Navigator initialRouteName={user ? "Profile" : "Welcome"} screenOptions={{ headerShown: false }}>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={user ? "Home" : "Welcome"} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Welcome">
           {props => <WelcomeScreen {...props} setUser={setUser} />}
         </Stack.Screen>
@@ -65,6 +64,6 @@ export default function App() {
         <Stack.Screen name="AddActivity" component={AddActivityScreen} />
         <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
       </Stack.Navigator>
-    </NavigationContainer> */
+    </NavigationContainer> 
   );
 }
