@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
     const [school, setSchool] = useState('')
     const [gradYear, setGradYear] = useState('')
 
- //   const navigation = useNavigation();
+    const navigation = useNavigation();
 
     const enteredName = (text) => {
         setName(text)
@@ -39,7 +39,7 @@ const WelcomeScreen = () => {
         // Sets user name and email, stores user using AsyncStorage, and navigates to Home tab
         let user = {name: name, email: email, school: school, gradYear: gradYear}
         await AsyncStorage.setItem('user', JSON.stringify(user))
-        navigation.navigate('Home', { screen: 'Profile' });
+        navigation.navigate('Home');
     } 
     // <Image source={require('../assets/icon.png')} className="w-36 h-32" />
 

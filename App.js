@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 function Tabs({ user }) {
   return (
     <Tab.Navigator
-      initialRouteName="See Activities"
+      initialRouteName="My Profile"
       screenOptions={{
         headerShown: false,
         tabBarIcon: () => null,
@@ -35,22 +35,17 @@ function Tabs({ user }) {
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+
+  const findName = async () => { 
+    const result = await AsyncStorage.getItem('user');
+    if (result !== null) {
+        setUser(JSON.parse(result));
+    }
+  }
 
   useEffect(() => {
-    const findName = async () => { 
-      const result = await AsyncStorage.getItem('user');
-      if (result !== null) {
-        setUser(JSON.parse(result));
-      }
-      setIsInitialized(true);
-    }
     findName();
   }, []);
-
-  if (!isInitialized) {
-    return null;
-  }
 
   return (
     <NavigationContainer>
