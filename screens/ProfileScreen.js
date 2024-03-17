@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, TextInput, Linking, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Linking, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -66,37 +66,37 @@ const ProfileScreen = () => {
     let user = JSON.parse(await AsyncStorage.getItem('user')) || {};
 
     if (property == 'name' && value.length < 3) {
-      alert('Name should be at least 3 characters long.');
+      Alert.alert("Invalid name", "Name should be at least 3 characters long.");
       setName(user.name || '');
       return;
     }
   
     if (property == 'email' && !/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(value)) {
-      alert('Email is invalid.');
+      Alert.alert("Invalid email", "Please enter a valid email.");
       setEmail(user.email || '');
       return;
     }
 
     if (property == 'school' && value.length < 3) {
-      alert('School should be at least 3 characters long.');
+      Alert.alert("Invalid school", "School should be at least 3 characters long.");
       setSchool(user.school || '');
       return;
     }
   
     if (property == 'satScore' && value != '' && ((value < 400 || value > 1600) || !Number.isInteger(Number(value) )) ) {
-      alert('SAT score must be an integer between 400 and 1600.');
+      Alert.alert("Invalid SAT score", "SAT score must be an integer between 400 and 1600.");
       setSatScore(user.satScore || '');
       return;
     }
   
     if (property == 'actScore' && value != '' && ((value < 1 || value > 36) || !Number.isInteger(Number(value) )) ) {
-      alert('ACT score must be an integer between 1 and 36.');
+      Alert.alert("Invalid ACT score", "ACT score must be an integer between 1 and 36.");
       setActScore(user.actScore || '');
       return;
     }
   
     if (property == 'gradYear' && ((value < 2020 || value > 2099) || !Number.isInteger(Number(value) )) ) {
-      alert('Graduation year must be an integer between 2020 and 2099.');
+      Alert.alert("Invalid graduation year", "Graduation year must be an integer between 2020 and 2099.");
       setGradYear(user.gradYear || '');
       return;
     }
