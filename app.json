@@ -6,23 +6,16 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true,
-      "runtimeVersion": {
-        "policy": "appVersion"
-      }
+      "supportsTablet": true
     },
     "android": {
-      "package": "com.portflo.portflo",
-      "runtimeVersion": "1.0.0"
+      "package": "com.portflo.portflo"
     },
     "extra": {
       "eas": {
         "projectId": "fd32b216-6aaa-467b-9cac-d8d3471efa09"
       }
     },
-    "owner": "aashisha",
-    "updates": {
-      "url": "https://u.expo.dev/fd32b216-6aaa-467b-9cac-d8d3471efa09"
-    }
+    "owner": "aashisha"
   }
 }
