@@ -31,7 +31,7 @@ function Tabs({ user }) {
 }
 
 export default function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const findName = async () => { 
     const result = await AsyncStorage.getItem('user');
@@ -56,7 +56,6 @@ export default function App() {
             <Stack.Screen name="Home">
             {props => <Tabs {...props} user={user} />}
             </Stack.Screen>
-            <Stack.Screen name="AddActivity" component={AddActivityScreen} />
             <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
           </>
         )}
