@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
     const [school, setSchool] = useState('')
     const [gradYear, setGradYear] = useState('')
 
-    const navigation = useNavigation();
+ //   const navigation = useNavigation();
 
     const enteredName = (text) => {
         setName(text)
