@@ -39,7 +39,7 @@ const WelcomeScreen = () => {
         // Sets user name and email, stores user using AsyncStorage, and navigates to Home tab
         let user = {name: name, email: email, school: school, gradYear: gradYear}
         await AsyncStorage.setItem('user', JSON.stringify(user))
-        navigation.navigate('Home', { screen: 'See Activities' });
+        navigation.navigate('Home', { screen: 'My Profile' });
     } 
 
     return (

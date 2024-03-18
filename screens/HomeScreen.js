@@ -200,7 +200,11 @@ const HomeScreen = () => {
             numColumns={2}
           />
         ) : (
-        <Text className="w-4/5 mt-4 text-center">You have no activities. Go to Add Activity to create a new one!</Text>
+        showStarred ? (
+          <Text className="w-4/5 mt-4 text-center">You have no starred activities. Click and view an activity to star one!</Text>
+        ) : (
+          <Text className="w-4/5 mt-4 text-center">You have no activities. Go to Add Activity to create a new one!</Text>
+        )
         )
       )}
 
