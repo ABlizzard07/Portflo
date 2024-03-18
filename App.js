@@ -49,12 +49,19 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {!user.name ? (
-          <Stack.Screen name="Welcome">
-            {props => <WelcomeScreen {...props} setUser={setUser} />}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Welcome">
+              {props => <WelcomeScreen {...props} setUser={setUser} />}
+            </Stack.Screen>
+            <Stack.Screen name="Home" component={HomeScreen}>
+              {props => <Tabs {...props} user={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
+            <Stack.Screen name="AddActivity" component={AddActivityScreen} />
+          </>
         ) : (
           <>
-          <Stack.Screen name="Home">
+          <Stack.Screen name="Home" component={HomeScreen}>
             {props => <Tabs {...props} user={user} />}
           </Stack.Screen>
           <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
