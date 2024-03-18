@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "portflo",
-    "slug": "portflo-app",
+    "name": "Portflo",
+    "slug": "portflo",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -19,6 +19,6 @@
         "projectId": "cac6ab88-1984-445b-8a2c-fc324eecb351"
       }
     },
-    "owner": "aashisha"
+    "owner": "portflo-app"
   }
 }
