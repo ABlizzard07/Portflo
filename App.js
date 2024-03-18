@@ -58,6 +58,7 @@ export default function App() {
             {props => <Tabs {...props} user={user} />}
           </Stack.Screen>
           <Stack.Screen name="ActivityDetail" component={ActivityDetailScreen} />
+          <Stack.Screen name="AddActivity" component={AddActivityScreen} />
           </>
         )}
       </Stack.Navigator>
