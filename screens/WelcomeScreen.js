@@ -5,27 +5,74 @@ import { Text, TextInput, View, TouchableOpacity } from 'react-native'
 
 const WelcomeScreen = () => {
     const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [school, setSchool] = useState('')
+    const [gradYear, setGradYear] = useState('')
+
     const navigation = useNavigation();
 
     const enteredName = (text) => {
         setName(text)
     }
 
+    const enteredEmail = (text) => {
+        setEmail(text)
+    }
+
+    const enteredSchool = (text) => {
+        setSchool(text)
+    }
+
+    const enteredGradYear = (text) => {
+        setGradYear(text)
+    }
+
+    const properEmail = (email) => {
+        return /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(email) // Regular expression to check for a valid email
+    }
+
+    const properGradYear = (gradYear) => {
+        return (gradYear >= 2020 && gradYear <= 2099) && Number.isInteger(Number(gradYear)) // To check if the graduation year is a valid year
+    }
+
     const onSubmit = async () => {
-        let user = {name: name}
+        // Sets user name and email, stores user using AsyncStorage, and navigates to Home tab
+        let user = {name: name, email: email, school: school, gradYear: gradYear}
         await AsyncStorage.setItem('user', JSON.stringify(user))
-        navigation.navigate('Home')
+        navigation.navigate('Home');
     } 
 
     return (
         <View className="flex-1 items-center justify-center bg-blue-100">
-            <TextInput className="bg-white w-4/5 p-2 m-2 mb-5 text-xl rounded-2xl text-center"
+            <View className="flex-row justify-center items-center mb-4 mt-10"> 
+                <Text className="text-4xl font-bold">Portflo</Text>
+            </View>
+
+            <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
                 value={name}
                 onChangeText={enteredName}
                 placeholder="Enter Your Name"
             ></TextInput>
 
-            {name.trim().length >= 3 ? (
+            <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
+                value={email}
+                onChangeText={enteredEmail}
+                placeholder="Enter Your Email"
+            ></TextInput>
+
+            <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
+                value={school}
+                onChangeText={enteredSchool}
+                placeholder="Enter Your School"
+            ></TextInput>
+
+            <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
+                value={gradYear}
+                onChangeText={enteredGradYear}
+                placeholder="Graduating Year in YYYY"
+            ></TextInput>
+
+            {name.trim().length >= 3 && properEmail(email) && school && properGradYear(gradYear) ? (
                 <TouchableOpacity className="w-1/2 bg-blue-300 border-blue-500 border-2 m-2 p-4 rounded-2xl items-center"
                     onPress={onSubmit}
                 >
@@ -38,4 +85,3 @@ const WelcomeScreen = () => {
 }
 
 export default WelcomeScreen
-
