@@ -8,10 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = () => {
   const [activities, setActivities] = useState([]);
   const [deletedActivities, setDeletedActivities] = useState([]);
-  const [starredActivities, setStarredActivities] = useState([]);
   const [search, setSearch] = useState('');
   const [showDeleted, setShowDeleted] = useState(false);
-  const [showStarred, setShowStarred] = useState(false);
   const [user, setUser] = useState({ name: '' });
 
   // Performs these actions every time the Home screen is focused
@@ -35,13 +33,6 @@ const HomeScreen = () => {
       };
   
       getActivities();
-
-      const getStarredActivities = async () => {
-        let allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
-        setStarredActivities(allStarredActivities);
-      };
-
-      getStarredActivities();
     }, [])
   );
 
@@ -138,20 +129,15 @@ const HomeScreen = () => {
     </TouchableOpacity>
   );
 
-  const filteredList = showStarred 
-  ? starredActivities.filter(activity => 
-      activity.title.toLowerCase().includes(search.toLowerCase()) || 
-      activity.description.toLowerCase().includes(search.toLowerCase()) ||
-      activity.category.toLowerCase().includes(search.toLowerCase()) ||
-      new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase()) ||
-      new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase())
-    )
-  : activities.filter(activity => 
-      activity.title.toLowerCase().includes(search.toLowerCase()) || 
-      activity.description.toLowerCase().includes(search.toLowerCase()) ||
-      activity.category.toLowerCase().includes(search.toLowerCase()) ||
-      new Date(activity.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase()) ||
-      new Date(activity.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase())
+  const filteredList = 
+    activities.filter(activity => 
+    activity.title.toLowerCase().includes(search.toLowerCase()) || 
+    activity.description.toLowerCase().includes(search.toLowerCase()) ||
+    activity.category.toLowerCase().includes(search.toLowerCase()) ||
+    new Date(activity.startDate).toLocaleDateString(undefined, 
+    { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase()) ||
+    new Date(activity.endDate).toLocaleDateString(undefined, 
+    { year: 'numeric', month: 'long', day: 'numeric' }).toLowerCase().includes(search.toLowerCase())
     );
 
   return (
@@ -165,18 +151,6 @@ const HomeScreen = () => {
         ></TextInput>
         <TouchableOpacity className="mr-2" onPress={handleShowDeleted}>
           <AntDesign name="delete" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={async () => {
-          setShowStarred(!showStarred);
-          if (!showStarred) {
-            const allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
-            setActivities(allStarredActivities);
-          } else {
-            const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
-            setActivities(allActivities);
-          }
-        }}>
-          <AntDesign name="star" size={30} color={showStarred ? "orange" : "black"} />
         </TouchableOpacity>
       </View>
 
@@ -200,11 +174,7 @@ const HomeScreen = () => {
             numColumns={2}
           />
         ) : (
-        showStarred ? (
-          <Text className="w-4/5 mt-4 text-center">You have no starred activities. Click and view an activity to star one!</Text>
-        ) : (
           <Text className="w-4/5 mt-4 text-center">You have no activities. Go to Add Activity to create a new one!</Text>
-        )
         )
       )}
 

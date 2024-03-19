@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as WebBrowser from 'expo-web-browser';
 
 const ActivityDetailScreen = ({ route }) => {
@@ -19,28 +18,6 @@ const ActivityDetailScreen = ({ route }) => {
     await WebBrowser.openBrowserAsync(url); // Open the URL
   };
 
-  const [isStarred, setIsStarred] = useState(false);
-
-  useEffect(() => {
-    const checkStarred = async () => {
-      const allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
-      setIsStarred(!!allStarredActivities.find(activity => activity.title === item.title));
-    };
-    checkStarred();
-  }, []);
-
-  const starActivity = async () => {
-    const allStarredActivities = JSON.parse(await AsyncStorage.getItem('starredActivities')) || [];
-    if (isStarred) {
-      const newStarredActivities = allStarredActivities.filter(activity => activity.title !== item.title);
-      await AsyncStorage.setItem('starredActivities', JSON.stringify(newStarredActivities));
-    } else {
-      allStarredActivities.push(item);
-      await AsyncStorage.setItem('starredActivities', JSON.stringify(allStarredActivities));
-    }
-    setIsStarred(!isStarred);
-  };
-
   return (
     <View className="flex-1 items-center container bg-blue-100 px-5 pt-4">
       <Text className="text-2xl pb-2 mt-8 font-semibold">{item.title}</Text>
@@ -52,9 +29,6 @@ const ActivityDetailScreen = ({ route }) => {
       <View className="flex-row items-center mt-6 space-x-2">
         <TouchableOpacity className="w-1/2 bg-blue-300 border-blue-500 border-2 p-2 rounded-2xl items-center" onPress={twitterShare}>
           <Text>Brag on Twitter</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="w-1/2 bg-yellow-100 border-yellow-500 border-2 p-2 rounded-2xl items-center" onPress={starActivity}>
-          <Text>{isStarred ? 'Unstar Activity' : 'Star Activity'}</Text>
         </TouchableOpacity>
       </View>
       

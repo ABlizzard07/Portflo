@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native';
 import { React, useState } from 'react'
-import { Text, TextInput, View, TouchableOpacity, Image } from 'react-native'
+import { Text, TextInput, View, TouchableOpacity, Image, Alert } from 'react-native'
 
 const WelcomeScreen = () => {
     const [name, setName] = useState('')
@@ -32,7 +32,7 @@ const WelcomeScreen = () => {
     }
 
     const properGradYear = (gradYear) => {
-        return (gradYear >= 2020 && gradYear <= 2099) && Number.isInteger(Number(gradYear)) // To check if the graduation year is a valid year
+        return (gradYear >= 1000 && gradYear <= 9999) && Number.isInteger(Number(gradYear)) // To check if the graduation year is a valid year
     }
 
     const onSubmit = async () => {
@@ -46,30 +46,34 @@ const WelcomeScreen = () => {
         <View className="flex-1 items-center justify-center bg-blue-100">
             <View className="flex-row justify-center items-center mb-4 mt-10"> 
                 <Text className="text-4xl font-bold">Portflo</Text>
-                <Image source={require('../assets/iconNoBg.png')} className="w-36 h-32" />
+                <Image source={require('../assets/icon.png')} className="w-36 h-32" />
             </View>
 
             <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
                 value={name}
                 onChangeText={enteredName}
+                onBlur={() => name.trim().length < 3 && Alert.alert('Invalid name', 'Your name should be at least 3 letters long.')}
                 placeholder="Enter Your Name"
             ></TextInput>
 
             <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
                 value={email}
                 onChangeText={enteredEmail}
+                onBlur={() => !properEmail(email) && Alert.alert('Invalid email', 'Please enter a valid email address.')}
                 placeholder="Enter Your Email"
             ></TextInput>
 
             <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
                 value={school}
                 onChangeText={enteredSchool}
+                onBlur={() => school.trim().length < 3 && Alert.alert('Invalid school', 'Your school should be at least 3 letters long.')}
                 placeholder="Enter Your School"
             ></TextInput>
 
             <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
                 value={gradYear}
                 onChangeText={enteredGradYear}
+                onBlur={() => !properGradYear(gradYear) && Alert.alert('Invalid graduation year', 'Year must be in YYYY format.')}
                 placeholder="Graduating Year in YYYY"
             ></TextInput>
 

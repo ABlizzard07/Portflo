@@ -19,7 +19,7 @@ const AddActivityScreen = ({ route }) => {
   const [showEndCalendar, setShowEndCalendar] = useState(false);
 
   const [categories] = useState(
-    ['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations',
+    ['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations', 'Honors Classes',
       'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']
     );
     
@@ -67,7 +67,7 @@ const AddActivityScreen = ({ route }) => {
         description,
         category,
         startDate,
-        endDate
+        endDate,
       };
       await AsyncStorage.setItem('activities', JSON.stringify(allActivities));
       Alert.alert('Form verified', 'Your activity has been updated!');
@@ -80,7 +80,7 @@ const AddActivityScreen = ({ route }) => {
           description,
           category,
           startDate,
-          endDate
+          endDate,
         };
     
         const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
@@ -164,7 +164,7 @@ const AddActivityScreen = ({ route }) => {
           scrollEnabled
         />
 
-        <Text className="mb-4">Character count: {description.trim().length}</Text>
+        <Text className="mb-2">Character count: {description.trim().length}</Text>
 
         <View className="flex-row justify-center gap-x-3.5">
           <TouchableOpacity onPress={onSubmit}>
