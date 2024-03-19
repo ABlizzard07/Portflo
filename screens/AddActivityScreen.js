@@ -14,13 +14,14 @@ const AddActivityScreen = ({ route }) => {
   const [startDate, setStartDate] = useState(editItem ? new Date(editItem.startDate) : new Date());
   const [endDate, setEndDate] = useState(editItem ? new Date(editItem.endDate) : new Date());
   const [description, setDescription] = useState(editItem ? editItem.description : '');
+  const [hours, setHours] = useState(editItem ? editItem.hours : '');
   // Pre-fills the form with the activity's properties if we are editing an activity
 
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
 
   const [categories] = useState(['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations',
-    'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']);
+    'Honors Classes', 'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']);
 
   const onStartChange = (event, selectedDate) => {
     setShowStartCalendar(false); // Hides the calendar
@@ -54,6 +55,11 @@ const AddActivityScreen = ({ route }) => {
       // Checks if any of the fields are missing
       Alert.alert('Invalid input', 'A field is missing.');
       return;
+    } else if (category === 'Volunteering' && hours && isNaN(hours)) {
+      // Checks if hours is a number
+      Alert.alert('Invalid input', 'Hours must be a number.');
+      setHours('');
+      return;
     }
     
     // If editItem exists, update the activity
@@ -67,6 +73,7 @@ const AddActivityScreen = ({ route }) => {
         category,
         startDate,
         endDate,
+        hours: category == 'Volunteering' ? hours : undefined
       }; // Updates the activity with new values
       await AsyncStorage.setItem('activities', JSON.stringify(allActivities));
       Alert.alert('Form verified', 'Your activity has been updated!');
@@ -80,6 +87,7 @@ const AddActivityScreen = ({ route }) => {
           category,
           startDate,
           endDate,
+          hours: category == 'Volunteering' ? hours : undefined
         }; // Creates a new activity object
     
 
@@ -166,7 +174,16 @@ const AddActivityScreen = ({ route }) => {
           scrollEnabled
         />
 
-        <Text className="mb-2">Character count: {description.trim().length}</Text>
+        <Text>Character count: {description.trim().length}</Text>
+
+        {category === 'Volunteering' && (
+          <TextInput className="bg-white w-4/5 p-2 m-2 text-lg rounded-2xl text-center"
+            placeholder="Hours"
+            value={hours}
+            onChangeText={setHours}
+            keyboardType="numeric"
+          />
+        )}
 
         <View className="flex-row justify-center gap-x-3.5">
           <TouchableOpacity onPress={onSubmit}>

@@ -137,6 +137,9 @@ const ActivitiesScreen = () => {
         <Text>{new Date(item.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })} -</Text>
         <Text>{new Date(item.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</Text>
         <Text className="text-gray-500" numberOfLines={3}>{item.description}</Text>
+        {item.category == "Volunteering" && item.hours && item.hours.trim().length > 0 && (
+          <Text>Volunteer Hours: {item.hours}</Text>
+        )}
       </View>
     </TouchableOpacity>
   );
