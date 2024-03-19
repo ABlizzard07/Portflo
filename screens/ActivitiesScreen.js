@@ -18,15 +18,18 @@ const ActivitiesScreen = () => {
 
       const getUser = async () => {
         let storedUser = JSON.parse(await AsyncStorage.getItem('user')); // Gets the user from AsyncStorage
-        setUser(storedUser ? storedUser : { name: '' }); // Sets user name to an empty string if it does not exist
+        setUser(storedUser ? storedUser : { name: '' }); 
+        // Sets user name to an empty string if it does not exist
       };
 
       getUser();
 
       const getActivities = async () => {
-        let allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || []; // Gets the activities from AsyncStorage
+        let allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || []; 
+        // Gets the activities from AsyncStorage
         
-        setActivities(allActivities); // Sets activities to the stored activities or an empty array if no activity exists
+        setActivities(allActivities); 
+        // Sets activities to the stored activities or an empty array if no activity exists
   
         let allDeletedActivities = JSON.parse(await AsyncStorage.getItem('deletedActivities')) || [];
         setDeletedActivities(allDeletedActivities);
