@@ -14,25 +14,26 @@ const AddActivityScreen = ({ route }) => {
   const [startDate, setStartDate] = useState(editItem ? new Date(editItem.startDate) : new Date());
   const [endDate, setEndDate] = useState(editItem ? new Date(editItem.endDate) : new Date());
   const [description, setDescription] = useState(editItem ? editItem.description : '');
+  // Pre-fills the form with the activity's properties if we are editing an activity
 
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
 
   const [categories] = useState(
-    ['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations', 'Honors Classes',
+    ['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations',
       'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']
     );
     
 
   const onStartChange = (event, selectedDate) => {
-    setShowStartCalendar(false);
+    setShowStartCalendar(false); // Hides the calendar
     if (selectedDate) {
       setStartDate(selectedDate);
     }
   };
 
   const onEndChange = (event, selectedDate) => {
-    setShowEndCalendar(false);
+    setShowEndCalendar(false); // Hides the calendar
     if (selectedDate) {
       if (selectedDate >= startDate) {
         setEndDate(selectedDate);
@@ -61,14 +62,15 @@ const AddActivityScreen = ({ route }) => {
     // If editItem exists, update the activity
     if (editItem) {
       const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
-      const index = allActivities.findIndex(activity => activity.title == editItem.title);
+      const index = allActivities.findIndex(activity => activity.title == editItem.title); 
+      // Finds the index of the activity to be updated
       allActivities[index] = {
         title,
         description,
         category,
         startDate,
         endDate,
-      };
+      }; // Updates the activity with new values
       await AsyncStorage.setItem('activities', JSON.stringify(allActivities));
       Alert.alert('Form verified', 'Your activity has been updated!');
 
@@ -81,12 +83,15 @@ const AddActivityScreen = ({ route }) => {
           category,
           startDate,
           endDate,
-        };
+        }; // Creates a new activity object
     
+
         const allActivities = JSON.parse(await AsyncStorage.getItem('activities')) || [];
+        // Adds the activity to the list of activities or creates a new list if it doesn't exist
         allActivities.push(newActivity);
         await AsyncStorage.setItem('activities', JSON.stringify(allActivities));
-    
+        // Storing the activities list in AsyncStorage
+        
         Alert.alert('Form verified', 'Your activity has been submitted!');
         onClear();
     }
@@ -119,7 +124,7 @@ const AddActivityScreen = ({ route }) => {
             <Picker.Item label="Choose a Category" value="" />
             {categories.map((cat, index) => (
               <Picker.Item key={index} label={cat} value={cat} />
-            ))}
+            ))} 
           </Picker>
         </View>
 

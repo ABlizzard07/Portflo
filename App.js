@@ -15,18 +15,18 @@ const Tab = createBottomTabNavigator();
 function Tabs({ user }) {
   return (
     <Tab.Navigator
-      initialRouteName="My Profile"
+      initialRouteName="See Activities"
       screenOptions={{
         headerShown: false,
         tabBarIcon: () => null,
         tabBarLabelStyle: { fontSize: 15, textAlign: 'center', paddingTop: 5, paddingBottom: 10},
       }}
     >
-      <Tab.Screen name="My Profile" component={ProfileScreen} />
       <Tab.Screen name="See Activities">
         {props => <ActivitiesScreen {...props} user={user} />}
       </Tab.Screen>
       <Tab.Screen name="Add Activity" component={AddActivityScreen} />
+      <Tab.Screen name="My Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
