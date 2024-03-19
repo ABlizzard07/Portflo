@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { Text, View, TextInput, FlatList, TouchableOpacity, Dimensions, Alert } from 'react-native';
+import { Text, View, TextInput, FlatList, TouchableOpacity, Dimensions, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,6 +38,15 @@ const ActivitiesScreen = () => {
       getActivities();
     }, [])
   );
+
+  const sendEmail = () => {
+    let emailBody = `Hello [Recipient], my name is ${user.name} and I am from ${user.school}.\n\n` +
+      'I wanted to share my brag sheet with you. Here are my activities:\n\n' +
+      filteredList.map(activity => `Activity: ${activity.title}\nDescription: ${activity.description}\n\n`).join(''); 
+  
+    let url = `mailto:?subject=Activities&body=${encodeURIComponent(emailBody)}`;
+    return Linking.openURL(url);
+  }
 
   const handleShowDeleted = () => {
     setShowDeleted(!showDeleted); // Toggles between showing and not showing deleted activities
@@ -145,7 +154,7 @@ const ActivitiesScreen = () => {
 
   return (
     <View className="flex-1 items-center container bg-blue-100 px-5 pt-4">
-      <Text className="text-center text-xl pb-2 mt-4 mb-2 font-semibold">{user.name ? `${user.name}'s Activities` : `My Activities`}</Text>
+      <Text className="text-center text-xl pb-2 mt-8 mb-2 font-semibold">{user.name ? `${user.name}'s Activities` : `My Activities`}</Text>
       
       <View className="flex-row items-center">
         <TextInput className="bg-white w-3/5 p-2 mr-2 text-sm rounded-2xl text-center"
@@ -154,6 +163,9 @@ const ActivitiesScreen = () => {
         ></TextInput>
         <TouchableOpacity className="mr-2" onPress={handleShowDeleted}>
           <AntDesign name="delete" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity className="mr-2" onPress={sendEmail}>
+          <AntDesign name="mail" size={30} color="black" /> 
         </TouchableOpacity>
       </View>
 

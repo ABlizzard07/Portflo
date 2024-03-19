@@ -19,11 +19,8 @@ const AddActivityScreen = ({ route }) => {
   const [showStartCalendar, setShowStartCalendar] = useState(false);
   const [showEndCalendar, setShowEndCalendar] = useState(false);
 
-  const [categories] = useState(
-    ['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations',
-      'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']
-    );
-    
+  const [categories] = useState(['Academic', 'Sports', 'Performing Arts', 'Internships/Jobs', 'Clubs/Organizations',
+    'Volunteering', 'Test Scores', 'Personal Projects', 'Competitions', 'Certifications', 'Research', 'Other']);
 
   const onStartChange = (event, selectedDate) => {
     setShowStartCalendar(false); // Hides the calendar

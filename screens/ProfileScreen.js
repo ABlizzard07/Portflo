@@ -19,9 +19,6 @@ const ProfileScreen = () => {
 
   const [editMode, setEditMode] = useState(false);
 
-  const [classes, setClasses] = useState([]);
-  const [newClass, setNewClass] = useState('');
-
   useFocusEffect(
     React.useCallback(() => {
       const getUserInfo = async () => {
@@ -42,20 +39,6 @@ const ProfileScreen = () => {
       getUserInfo();
     }, [])
   );
-
-  const addClass = () => {
-    if (newClass.trim() != '' && classes.length < 10) {
-      setClasses([...classes, newClass]);
-      setNewClass('');
-    } else if (classes.length >= 10) {
-      Alert.alert("Too many classes", "You can only show 10 classes in your portfolio. Remove a class to add another.");
-      return;
-    }
-  };
-
-  const removeClass = (index) => {
-    setClasses(classes.filter((item, i) => i != index));
-  };
 
   const updateInfo = async (property, value) => {
     let user = JSON.parse(await AsyncStorage.getItem('user')) || {};
@@ -176,17 +159,6 @@ const ProfileScreen = () => {
             placeholder="Add a little about about yourself"
             multiline scrollEnabled>
           </TextInput>
-
-          <View className="flex-row justify-between items-center space-x-1">
-              <TextInput className="bg-white w-2/3 p-2 m-2 text-sm rounded-2xl text-center"
-                value={newClass}
-                onChangeText={setNewClass}
-                placeholder="Enter a Class">
-              </TextInput>
-              <TouchableOpacity onPress={addClass} className="border border-blue-500 p-2 rounded-2xl">
-                <Text>Add Class</Text>
-              </TouchableOpacity>
-            </View>
         </>
         ) : (
           <>
@@ -214,45 +186,35 @@ const ProfileScreen = () => {
               <Text className="font-semibold">About Me{"\n"}</Text>
               {about ? ( <Text numberOfLines={4}>{`${about}`}</Text> ) : ( <Text>To add a little about yourself, use the edit icon!</Text> )}
             </View>
-            <View className="flex-col border border-blue-500 p-4 bg-white w-full">
-              <Text className="font-semibold mb-2">Notable Classes</Text>
-
-              <View className="flex-row flex-wrap">
-                {classes.length > 0 ? (classes.map((classItem, index) => (
-                  <View key={index} className="basis-1/2 flex-row justify-between p-2 bg-gray-100 rounded-2xl">
-                    <Text>{classItem}</Text>
-                    <TouchableOpacity onPress={() => removeClass(index)}>
-                      <AntDesign name="closecircleo" size={16} color="red" />
-                    </TouchableOpacity>
-                  </View>
-                )) ) : ( <Text>Add your top 10 most notable classes</Text> )}
-              </View>
-
-            </View>
           </>
         )}
 
-        <View className="flex-row items-center space-x-5 p-4">
+        <View className="flex-row items-center space-x-5 p-4 mt-10">
           <TouchableOpacity className="bg-blue-100 border-blue-500 border-2 mt-4 p-2 rounded-2xl items-center"
             onPress={() => setShowBlurb(!showBlurb)}>
             <Text className="mb-2">About Portflo</Text>
-            <Image source={require('../assets/icon.png')} className="w-28 h-24" />
+            <Image source={require('../assets/icon.png')} className="w-28 h-28" />
           </TouchableOpacity>
           {showBlurb && (
             <View className="border border-blue-500 p-3 w-1/2 items-center">
-              <Text className="text-center">
+              <Text className="text-center mb-4">
                 Portflo was developed to help high school students like you navigate the college application process.
                 {"\n"}{"\n"}
-                Like what you see? Follow our socials for more updates!
+                View our documentation for more info!
               </Text>
+              <TouchableOpacity className="bg-white px-5 py-2 rounded-2xl mb-4"
+                onPress={() => Linking.openURL("https://docs.google.com/document/d/15yhnUrY0nGKsfSj-VXNgXw_FidY63fGwhzQxZ87Cxww/edit")}
+              >
+                <Text className="text-center">Documentation</Text>
+              </TouchableOpacity>
             </View>
           )}
         </View>
 
-        <View className="flex-row justify-between absolute bottom-4 w-full">
+        <View className="flex-row justify-between items-center absolute bottom-4 w-full">
           <AntDesign name="instagram" size={32} color="black" onPress={() => Linking.openURL("https://instagram.com/portfloapp")} />
-
-          <AntDesign name="mail" size={32} color="black" onPress={() => Linking.openURL("mailto:portfloapp@gmail.com")} />
+          <Text className="text-lg">Contact Us</Text>
+          <AntDesign name="mail" size={32} color="black" onPress={() => Linking.openURL("mailto:portfloapp@gmail.com?subject=Portflo%20App%20Inquiry")} />
         </View>
         
       </View>
