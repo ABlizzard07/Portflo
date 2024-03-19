@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen = () => {
+const ActivitiesScreen = () => {
   const [activities, setActivities] = useState([]);
   const [deletedActivities, setDeletedActivities] = useState([]);
   const [search, setSearch] = useState('');
@@ -142,7 +142,7 @@ const HomeScreen = () => {
 
   return (
     <View className="flex-1 items-center container bg-blue-100 px-5 pt-4">
-      <Text className="text-center text-xl pb-2 mt-8 mb-2 font-semibold">{user.name ? `${user.name}'s Activities` : `My Activities`}</Text>
+      <Text className="text-center text-xl pb-2 mt-4 mb-2 font-semibold">{user.name ? `${user.name}'s Activities` : `My Activities`}</Text>
       
       <View className="flex-row items-center">
         <TextInput className="bg-white w-3/5 p-2 mr-2 text-sm rounded-2xl text-center"
@@ -182,4 +182,4 @@ const HomeScreen = () => {
   );
 }
 
-export default HomeScreen;
+export default ActivitiesScreen;
