@@ -46,7 +46,7 @@ const WelcomeScreen = () => {
         <View className="flex-1 items-center justify-center bg-blue-100">
             <View className="flex-row justify-center items-center mb-4 mt-10"> 
                 <Text className="text-4xl font-bold">Portflo</Text>
-                <Image source={require('../assets/icon.png')} className="w-36 h-32" />
+                <Image source={require('../assets/iconNoBg.png')} className="w-36 h-32" />
             </View>
 
             <TextInput className="bg-white w-4/5 p-2 m-2 mb-2 text-lg rounded-2xl text-center"
