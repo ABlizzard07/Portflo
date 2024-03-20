@@ -152,7 +152,7 @@ const ProfileScreen = () => {
             </TextInput>
           </View>
 
-          <TextInput className="bg-white w-full p-2 m-2 h-32 text-sm text-center mb-12"
+          <TextInput className="bg-white w-full p-2 m-2 h-16 text-sm text-center mb-8"
             value={about}
             onChangeText={value => { setAbout(value); updateInfo('about', value); }}
             placeholder="Add a little about about yourself"
