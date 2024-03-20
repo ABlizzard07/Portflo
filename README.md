@@ -18,6 +18,8 @@ This app was built as part of FBLA's Mobile Application Development event. Our p
 # Planning
 Tangible planning documents were used in this project. This [master plan](https://docs.google.com/document/d/15yhnUrY0nGKsfSj-VXNgXw_FidY63fGwhzQxZ87Cxww/edit) contains all of the details of the project.
 
+# Documentation
+Instructions on installing and using Portflo can be found [here](https://docs.google.com/document/d/15yhnUrY0nGKsfSj-VXNgXw_FidY63fGwhzQxZ87Cxww/edit)
 # Future Goals
 - Make the app cross-platform to work on all devices
 - Incorporate an in-app account system where students can share content with friends
