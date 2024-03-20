@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+// Sets up both Stack and Tab navigators
 
 function Tabs({ user }) {
   return (
@@ -33,12 +34,12 @@ function Tabs({ user }) {
 
 export default function App() {
   const [user, setUser] = useState({})
-
+  
   const findName = async () => { 
     const result = await AsyncStorage.getItem('user')
     if (result !== null) {
         setUser(JSON.parse(result))
-    }
+    } // Set user to what is stored in AsyncStorage
   }
 
   useEffect(() => {
