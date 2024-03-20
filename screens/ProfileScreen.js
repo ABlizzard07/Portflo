@@ -15,7 +15,6 @@ const ProfileScreen = () => {
   const [actScore, setActScore] = useState('');
   const [classRank, setClassRank] = useState('');
   const [about, setAbout] = useState('');
-  const [showBlurb, setShowBlurb] = useState(false);
 
   const [editMode, setEditMode] = useState(false);
 
@@ -153,7 +152,7 @@ const ProfileScreen = () => {
             </TextInput>
           </View>
 
-          <TextInput className="bg-white w-full p-2 m-2 h-32 text-sm text-center"
+          <TextInput className="bg-white w-full p-2 m-2 h-32 text-sm text-center mb-12"
             value={about}
             onChangeText={value => { setAbout(value); updateInfo('about', value); }}
             placeholder="Add a little about about yourself"
@@ -182,33 +181,19 @@ const ProfileScreen = () => {
                 )}
               </View>
             </View>
-            <View className="flex-col border border-blue-500 p-4 bg-white w-full h-1/6">
+            <View className="flex-col border border-blue-500 p-4 bg-white w-full h-1/5 mb-16">
               <Text className="font-semibold">About Me{"\n"}</Text>
-              {about ? ( <Text numberOfLines={4}>{`${about}`}</Text> ) : ( <Text>To add a little about yourself, use the edit icon!</Text> )}
+              {about ? ( <Text numberOfLines={6}>{`${about}`}</Text> ) : ( <Text>To add a little about yourself, use the edit icon!</Text> )}
             </View>
           </>
         )}
 
-        <View className="flex-row items-center space-x-5 p-4 mt-10">
+        <View className="flex-row items-center space-x-5 p-4">
           <TouchableOpacity className="bg-blue-100 border-blue-500 border-2 mt-4 p-2 rounded-2xl items-center"
-            onPress={() => setShowBlurb(!showBlurb)}>
-            <Text className="mb-2">About Portflo</Text>
+            onPress={() => Linking.openURL("https://docs.google.com/document/d/15yhnUrY0nGKsfSj-VXNgXw_FidY63fGwhzQxZ87Cxww/edit")}>
+            <Text className="mb-2 text-lg">View Documentation</Text>
             <Image source={require('../assets/icon.png')} className="w-28 h-28" />
           </TouchableOpacity>
-          {showBlurb && (
-            <View className="border border-blue-500 p-3 w-1/2 items-center">
-              <Text className="text-center mb-4">
-                Portflo was developed to help high school students like you navigate the college application process.
-                {"\n"}{"\n"}
-                View our documentation for more info!
-              </Text>
-              <TouchableOpacity className="bg-white px-5 py-2 rounded-2xl mb-4"
-                onPress={() => Linking.openURL("https://docs.google.com/document/d/15yhnUrY0nGKsfSj-VXNgXw_FidY63fGwhzQxZ87Cxww/edit")}
-              >
-                <Text className="text-center">Documentation</Text>
-              </TouchableOpacity>
-            </View>
-          )}
         </View>
 
         <View className="flex-row justify-between items-center absolute bottom-4 w-full">
