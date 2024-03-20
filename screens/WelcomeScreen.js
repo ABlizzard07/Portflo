@@ -28,11 +28,13 @@ const WelcomeScreen = () => {
     }
 
     const properEmail = (email) => {
-        return /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(email) // Regular expression to check for a valid email
+        return /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(email) 
+        // Regular expression to check for a valid email
     }
 
     const properGradYear = (gradYear) => {
-        return (gradYear >= 1000 && gradYear <= 9999) && Number.isInteger(Number(gradYear)) // To check if the graduation year is a valid year
+        return (gradYear >= 1000 && gradYear <= 9999) && Number.isInteger(Number(gradYear)) 
+        // To check if the graduation year is a valid year
     }
 
     const onSubmit = async () => {

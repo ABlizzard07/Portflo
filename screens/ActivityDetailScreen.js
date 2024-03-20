@@ -14,7 +14,8 @@ const ActivityDetailScreen = ({ route }) => {
   const twitterShare = async () => {
     const message = `I took part in ${item.title} from ${formatStartDate} to ${formatEndDate}!. Here's what I did: 
     ${item.description}`; // Formats the activity properties into the message
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; // Pre-populated a tweet with the message
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; 
+    // Pre-populated a tweet with the message
     await WebBrowser.openBrowserAsync(url); // Open the URL
   };
 
@@ -26,6 +27,9 @@ const ActivityDetailScreen = ({ route }) => {
       <View className="mt-4 w-full border bg-white border-blue-500 p-10">
         <Text className="text-base text-center">{item.description}</Text>
       </View> 
+      {item.category == "Volunteering" && item.hours && item.hours.trim().length > 0 && (
+        <Text>Volunteer Hours: {item.hours}</Text>
+      )}
       <View className="flex-row items-center mt-6 space-x-2">
         <TouchableOpacity className="w-1/2 bg-blue-300 border-blue-500 border-2 p-2 rounded-2xl items-center" onPress={twitterShare}>
           <Text>Brag on Twitter</Text>

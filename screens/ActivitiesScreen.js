@@ -43,6 +43,7 @@ const ActivitiesScreen = () => {
     let emailBody = `Hello [Recipient], my name is ${user.name} and I am from ${user.school}.\n\n` +
       'I wanted to share my brag sheet with you. Here are my activities:\n\n' +
       filteredList.map(activity => `Activity: ${activity.title}\nDescription: ${activity.description}\n\n`).join(''); 
+      // Maps through the activities and adds them to the email body
   
     let url = `mailto:?subject=Activities&body=${encodeURIComponent(emailBody)}`;
     return Linking.openURL(url);
