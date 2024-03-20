@@ -183,7 +183,8 @@ const ProfileScreen = () => {
             </View>
             <View className="flex-col border border-blue-500 p-4 bg-white w-full h-1/5 mb-16">
               <Text className="font-semibold">About Me{"\n"}</Text>
-              {about ? ( <Text numberOfLines={6}>{`${about}`}</Text> ) : ( <Text>To add a little about yourself, use the edit icon!</Text> )}
+              {about ? ( <Text numberOfLines={6}>{`${about}`}</Text> ) : 
+              ( <Text>To add a little about yourself, use the edit icon!</Text> )}
             </View>
           </>
         )}
