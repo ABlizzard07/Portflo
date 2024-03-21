@@ -26,7 +26,11 @@ const AddActivityScreen = ({ route }) => {
   const onStartChange = (event, selectedDate) => {
     setShowStartCalendar(false); // Hides the calendar
     if (selectedDate) {
-      setStartDate(selectedDate);
+      if (selectedDate <= endDate) {
+        setStartDate(selectedDate);
+      } else {
+        Alert.alert('Invalid date', 'End date must be after start date.');
+      }
     }
   };
 
