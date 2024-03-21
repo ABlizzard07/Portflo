@@ -18,6 +18,8 @@ const ProfileScreen = () => {
 
   const [editMode, setEditMode] = useState(false);
 
+  const [isTyping, setIsTyping] = useState(false);
+
   useFocusEffect(
     React.useCallback(() => {
       const getUserInfo = async () => {
@@ -126,12 +128,16 @@ const ProfileScreen = () => {
             <TextInput className="bg-white w-1/2 p-2 m-2 text-sm rounded-2xl text-center"
               value={GPA}
               onChangeText={value => { setGPA(value); updateInfo('GPA', value); }}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
               placeholder="GPA">
             </TextInput>
 
             <TextInput className="bg-white w-1/2 p-2 m-2 text-sm rounded-2xl text-center"
               value={classRank}
               onChangeText={value => { setClassRank(value); updateInfo('classRank', value); }}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
               placeholder="Class Rank">
             </TextInput>
           </View>
@@ -140,14 +146,22 @@ const ProfileScreen = () => {
             <TextInput className="bg-white w-1/2 p-2 m-2 text-sm rounded-2xl text-center"
               value={satScore}
               onChangeText={value => { setSatScore(value); }}
-              onBlur={() => { updateInfo('satScore', satScore); }}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => { 
+                updateInfo('satScore', satScore);
+                setIsTyping(false);
+              }}
               placeholder="SAT Score">
             </TextInput>
 
             <TextInput className="bg-white w-1/2 p-2 m-2 text-sm rounded-2xl text-center"
               value={actScore}
               onChangeText={value => { setActScore(value); }}
-              onBlur={() => { updateInfo('actScore', actScore); }}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => { 
+                updateInfo('actScore', actScore);
+                setIsTyping(false);
+              }}
               placeholder="ACT Score">
             </TextInput>
           </View>
@@ -155,7 +169,9 @@ const ProfileScreen = () => {
           <TextInput className="bg-white w-full p-2 m-2 h-16 text-sm text-center mb-8"
             value={about}
             onChangeText={value => { setAbout(value); updateInfo('about', value); }}
-            placeholder="Add a little about about yourself"
+            onFocus={() => setIsTyping(true)}
+            onBlur={() => setIsTyping(false)}
+            placeholder="Add a little about yourself"
             multiline scrollEnabled>
           </TextInput>
         </>
@@ -197,11 +213,13 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="flex-row justify-between items-center absolute bottom-4 w-full">
-          <AntDesign name="instagram" size={32} color="black" onPress={() => Linking.openURL("https://instagram.com/portfloapp")} />
-          <Text className="text-lg">Contact Us</Text>
-          <AntDesign name="mail" size={32} color="black" onPress={() => Linking.openURL("mailto:portfloapp@gmail.com?subject=Portflo%20App%20Inquiry")} />
-        </View>
+        {!isTyping && (
+          <View className="flex-row justify-between items-center absolute bottom-4 w-full">
+            <AntDesign name="instagram" size={32} color="black" onPress={() => Linking.openURL("https://instagram.com/portfloapp")} />
+            <Text className="text-lg">Contact Us</Text>
+            <AntDesign name="mail" size={32} color="black" onPress={() => Linking.openURL("mailto:portfloapp@gmail.com?subject=Portflo%20App%20Inquiry")} />
+          </View>
+        )}
         
       </View>
     </TouchableWithoutFeedback>
